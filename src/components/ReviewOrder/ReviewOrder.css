@@ -1,0 +1,12 @@
+.reviewProductContent{
+    width: 100%;
+    display: flex;
+}
+.reviewProduct{
+    width: 65%;
+    border-right: 1px solid lightgray;
+}
+.reviewCart{
+    width: 30%;
+    margin-left: 10px;
+}
