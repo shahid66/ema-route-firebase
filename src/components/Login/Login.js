@@ -9,6 +9,9 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from '../../firebase.config';
 import { useState } from 'react';
+import { useContext } from 'react';
+import { UserContext } from '../../App';
+import { useHistory, useLocation } from 'react-router-dom';
 
 
 firebase.initializeApp(firebaseConfig);
@@ -26,7 +29,10 @@ const Login = () => {
     error:'',
     success:false
   });
-  
+  const[loggedInUser,setLoggedInUser]=useContext(UserContext);
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/" } };
   const googleProvider = new firebase.auth.GoogleAuthProvider();
   const fbProvider = new firebase.auth.FacebookAuthProvider();
   
@@ -104,12 +110,15 @@ const Login = () => {
       newUserInfo.error = '';
       newUserInfo.success=true;
       setUser(newUserInfo);
+      setLoggedInUser(newUserInfo);
+      history.replace(from);
     })
     .catch(function(error) {
       const newUserInfo ={...user};
       newUserInfo.error = error.message;
       newUserInfo.success=false;
       setUser(newUserInfo);
+      setLoggedInUser(newUserInfo);
     });
     e.preventDefault();
   }
