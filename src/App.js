@@ -12,6 +12,7 @@ import ProductDetails from './components/ProductDetails/ProductDetails';
 import ReviewOrder from './components/ReviewOrder/ReviewOrder';
 import Shipping from './components/Shipping/Shipping';
 import Login from './components/Login/Login';
+import Register from './components/Register/Register';
 
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
             <Shipping></Shipping>
           </Route>
           <Route path="/register">
-            <Shop></Shop>
+            <Register></Register>
           </Route>
           <Route path="/review">
             <ReviewOrder></ReviewOrder>

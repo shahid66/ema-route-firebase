@@ -22,12 +22,18 @@ const Login = () => {
     name:'',
     email:'',
     photo:'',
-    password:''
+    password:'',
+    error:'',
+    success:false
   });
-  var provider = new firebase.auth.GoogleAuthProvider();
+  
+  const googleProvider = new firebase.auth.GoogleAuthProvider();
+  const fbProvider = new firebase.auth.FacebookAuthProvider();
   
   const handelGLogin=()=>{
-    firebase.auth().signInWithPopup(provider)
+   
+
+    firebase.auth().signInWithPopup(googleProvider)
     .then(res =>{
       const{displayName,email, photoURL}=res.user;
       const signedInUser ={
@@ -37,10 +43,18 @@ const Login = () => {
         photo:photoURL
       }
       setUser(signedInUser);
+      const newUserInfo ={...user};
+      newUserInfo.error = '';
+      newUserInfo.success=true;
+      setUser(newUserInfo);
     })
 
     .catch((error)=> {
-   
+      const newUserInfo ={...user};
+      newUserInfo.error = error.message;
+      newUserInfo.success=false;
+      setUser(newUserInfo);
+
     });
     
   }
@@ -50,7 +64,7 @@ const Login = () => {
        isValidField = /\S+@\S+\.\S+/.test(e.target.value);
     }
     if(e.target.name ==='password'){
-      const passLength = e.target.value >6;
+      const passLength = e.target.value.length >6;
       const passPatarn = /\d{1}/.test(e.target.value);
       isValidField =passLength && passPatarn;
     }
@@ -61,10 +75,43 @@ const Login = () => {
     }
   }
   const handelFLogin =()=>{
-
+    firebase.auth().signInWithPopup(fbProvider).then(function(res) {
+      const{displayName,email, photoURL}=res.user;
+      const signedInUser ={
+        isSignedIn: true,
+        name: displayName,
+        email:email,
+        photo:photoURL
+      }
+      setUser(signedInUser);
+      const newUserInfo ={...user};
+      newUserInfo.error = '';
+      newUserInfo.success=true;
+      setUser(newUserInfo);
+    })
+    .catch(function(error) {
+      const newUserInfo ={...user};
+      newUserInfo.error = error.message;
+      newUserInfo.success=false;
+      setUser(newUserInfo);
+    });
+    
   }
-  const handelEmailLogin =()=>{
-
+  const handelEmailLogin =(e)=>{
+    firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+    .then(res =>{
+      const newUserInfo ={...user};
+      newUserInfo.error = '';
+      newUserInfo.success=true;
+      setUser(newUserInfo);
+    })
+    .catch(function(error) {
+      const newUserInfo ={...user};
+      newUserInfo.error = error.message;
+      newUserInfo.success=false;
+      setUser(newUserInfo);
+    });
+    e.preventDefault();
   }
     return (
         <div className='fromstyle'>
@@ -94,7 +141,8 @@ const Login = () => {
         <Button><FontAwesomeIcon onClick={handelFLogin} icon={faFacebook}/></Button>
     <Button><FontAwesomeIcon onClick={handelGLogin} icon={faGoogle}/></Button>
         </div>
-    <h1>welcome {user.email}</h1>
+        <h1 style={{color:'red'}}>{user.error}</h1>
+    {user.success && <h1 style={{color:'green'}}>User Login Successfully </h1>}
         </div>
        
     );
