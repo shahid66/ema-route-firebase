@@ -1,0 +1,23 @@
+.fromstyle{
+    margin: 0 auto;
+    width: 40%;
+    background: lightblue;
+    padding: 100px;
+}
+.fromstyle Form{
+    padding-top: 40px;
+}
+.fromstyle h3{
+    text-align: center;
+}
+.socialIcon{
+   width: 100%;
+   display: flex;
+   justify-content:center;
+   
+    
+}
+.socialIcon Button{
+    justify-items: center;
+    margin: 0px 8px;
+}

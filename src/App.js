@@ -10,6 +10,9 @@ import {
 } from "react-router-dom";
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import ReviewOrder from './components/ReviewOrder/ReviewOrder';
+import Shipping from './components/Shipping/Shipping';
+import Login from './components/Login/Login';
+
 
 function App() {
   return (
@@ -19,6 +22,15 @@ function App() {
       <Header></Header>
       <Switch>
           <Route path="/shop">
+            <Shop></Shop>
+          </Route>
+          <Route path="/login">
+            <Login></Login>
+          </Route>
+          <Route path="/shipping">
+            <Shipping></Shipping>
+          </Route>
+          <Route path="/register">
             <Shop></Shop>
           </Route>
           <Route path="/review">
